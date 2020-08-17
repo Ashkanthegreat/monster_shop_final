@@ -6,6 +6,15 @@ Rails.application.routes.draw do
     resources :items, only: [:index]
   end
 
+  # get '/merchants', to: 'merchants#index'
+  # get '/merchants/:id/edit', to: 'merchants#edit'
+  # patch '/merchants/:id', to: 'merchants#update'
+  # post '/merchants', to: 'merchants#create'
+  # get '/merchants/new', to: 'merchants#new'
+  # delete '/merchants/:id', to: 'merchants#destroy'
+  # get '/merchants/:id', to: 'merchants#show'
+  # get '/merchants/:merchant_id/items', to: 'items#index'
+
   resources :items, only: [:index, :show] do
     resources :reviews, only: [:new, :create]
   end
@@ -35,22 +44,38 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :orders, only: :show
-    resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    # resources :orders, only: :show
+    get '/orders/:id', to: 'orders#show'
+    # resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
+    get '/items', to: 'items#index'
+    get '/items/new', to: 'items#new'
+    post '/items', to: 'items#create'
+    get '/items', to: 'items#show'
+    get '/items/:id/edit', to: 'items#edit'
+    patch '/items/:id', to: 'items#update'
+    put '/items/:id', to: 'items#update'
+    delete '/items/:id', to: 'items#destroy'
     put '/items/:id/change_status', to: 'items#change_status'
     get '/orders/:id/fulfill/:order_item_id', to: 'orders#fulfill'
-    get '/discounts', to: 'discounts#index'
-    get '/discounts/new', to: 'discounts#new'
-    post '/discounts', to: 'discounts#create'
-    get '/discounts/:id/edit', to: 'discounts#edit'
-    patch '/discounts/:id', to: 'discounts#update'
-    delete '/discounts/:id', to: 'discounts#destroy'
+
+    resources :discounts, only: [:index, :new, :create, :edit, :update, :destroy]
+    # get '/discounts', to: 'discounts#index'
+    # get '/discounts/new', to: 'discounts#new'
+    # post '/discounts', to: 'discounts#create'
+    # get '/discounts/:id/edit', to: 'discounts#edit'
+    # patch '/discounts/:id', to: 'discounts#update'
+    # delete '/discounts/:id', to: 'discounts#destroy'
   end
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :merchants, only: [:show, :update]
-    resources :users, only: [:index, :show]
+    # resources :merchants, only: [:show, :update]
+    get '/merchants/:id', to: 'merchants#show'
+    patch '/merchants/:id', to: 'merchants#update'
+    # resources :users, only: [:index, :show]
+    get '/users', to: 'users#index'
+    get '/users/:id', to: 'users#show'
+
     patch '/orders/:id/ship', to: 'orders#ship'
   end
 end

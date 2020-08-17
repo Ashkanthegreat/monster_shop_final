@@ -66,12 +66,18 @@ RSpec.describe Cart do
     end
 
     it '.it_discounted()' do
-      expect(@cart.it_discounted(@orge.id)).to eq(true)
+      expect(@cart.it_discounted(@ogre.id)).to eq(true)
+      expect(@cart.it_discounted(@giant.id)).to eq(false)
     end
 
-    xit '.can_discount?()' do
-      expect(@cart.can_discount?(@orge.id, @discount1)).to eq(true)
+    it '.can_discount?()' do
+      expect(@cart.can_discount?(@ogre.id, @discount1)).to eq(true)
+      expect(@cart.can_discount?(@giant.id, @discount1)).to eq(false)
     end
 
+    it '.highest_disc()' do
+      discount2 = @megan.discounts.create!(name: "Ogre 2 Discount", percent_off: 20, min_quantity: 5)
+      expect(@cart.highest_disc(@ogre.id)).to eq(0.2)
+    end
   end
 end
